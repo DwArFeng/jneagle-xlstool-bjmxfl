@@ -36,6 +36,9 @@ public enum I18nKey implements Name {
 	LOGGER_23(new DefaultName("logger.23")), //
 	LOGGER_24(new DefaultName("logger.24")), //
 	LOGGER_25(new DefaultName("logger.25")), //
+	LOGGER_26(new DefaultName("logger.26")), //
+	LOGGER_27(new DefaultName("logger.27")), //
+
 	;
 
 	private Name name;

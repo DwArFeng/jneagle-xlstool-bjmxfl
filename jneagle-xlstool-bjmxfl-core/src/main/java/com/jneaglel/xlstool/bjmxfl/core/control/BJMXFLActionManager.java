@@ -383,7 +383,7 @@ class BJMXFLActionManager implements ActionManager {
 		requireRuntimeState(RuntimeState.RUNNING);
 		try {
 			// 通知应用程序正在退出。
-			info(I18nKey.LOGGER_21);
+			info(I18nKey.LOGGER_26);
 			// 保存程序配置。
 			saveConfig();
 			// 关闭GUI。
@@ -410,7 +410,7 @@ class BJMXFLActionManager implements ActionManager {
 		try {
 			return resource.openOutputStream();
 		} catch (IOException e) {
-			formatWarn(I18nKey.LOGGER_22, e, resourceKey.getName());
+			formatWarn(I18nKey.LOGGER_27, e, resourceKey.getName());
 			resource.reset();
 			return resource.openOutputStream();
 		}
