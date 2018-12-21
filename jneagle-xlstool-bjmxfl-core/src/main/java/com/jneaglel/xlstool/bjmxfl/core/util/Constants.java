@@ -19,6 +19,8 @@ public final class Constants {
 	/** 代表强制重置配置文件的命令行参数。 */
 	public static final String CLI_OPT_FLAG_CONFIG_FORCE_RESET = "r";
 
+	/** 代表文本文件的扩展名。 */
+	public static final String FILE_EXTENSION_TEXT = "txt";
 	/** 代表Excel97-03的文件的扩展名。 */
 	public static final String FILE_EXTENSION_EXCEL_97_03 = "xls";
 

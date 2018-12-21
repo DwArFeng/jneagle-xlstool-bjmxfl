@@ -1,8 +1,10 @@
 package com.jneaglel.xlstool.bjmxfl.core.control;
 
+import java.io.File;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.OutputStream;
+import java.util.Collection;
 import java.util.LinkedHashSet;
 import java.util.Locale;
 import java.util.Objects;
@@ -21,6 +23,7 @@ import org.apache.commons.cli.Options;
 import org.apache.commons.cli.ParseException;
 
 import com.dwarfeng.dutil.basic.cna.model.ReferenceModel;
+import com.dwarfeng.dutil.basic.cna.model.SyncListModel;
 import com.dwarfeng.dutil.basic.cna.model.SyncReferenceModel;
 import com.dwarfeng.dutil.basic.gui.swing.SwingUtil;
 import com.dwarfeng.dutil.basic.io.LoadFailedException;
@@ -493,6 +496,37 @@ class BJMXFLActionManager implements ActionManager {
 	public void submit(Task task) throws NullPointerException {
 		Objects.requireNonNull(task, "入口参数 task 不能为 null。");
 		bjmxfl.getBackground().submit(task);
+	}
+
+	/**
+	 * {@inheritDoc}
+	 */
+	@Override
+	public void setFiles2Import(Collection<File> files) throws NullPointerException {
+		Objects.requireNonNull(files, "入口参数 files 不能为 null。");
+
+		SyncListModel<File> files2ImportModel = bjmxfl.getFiles2ImportModel();
+		SyncSettingHandler modalSettingHandler = bjmxfl.getModalSettingHandler();
+
+		files2ImportModel.getLock().writeLock().lock();
+		try {
+			files2ImportModel.clear();
+			files2ImportModel.addAll(files);
+		} finally {
+			files2ImportModel.getLock().writeLock().unlock();
+		}
+
+		if (files.isEmpty())
+			return;
+
+		modalSettingHandler.getLock().writeLock().lock();
+		try {
+			modalSettingHandler.setParsedValue(ModalSettingItem.FLAG_LAST_IMPORTED_FILE_EXISTS, true);
+			modalSettingHandler.setParsedValue(ModalSettingItem.FILE_LAST_IMPORTED_FILE,
+					files.stream().findFirst().get().getParentFile());
+		} finally {
+			modalSettingHandler.getLock().writeLock().unlock();
+		}
 	}
 
 	// --------------------------------------------日志输出--------------------------------------------
