@@ -1,11 +1,16 @@
 package com.jneaglel.xlstool.bjmxfl.core.control;
 
 import java.io.File;
+import java.io.FileInputStream;
+import java.io.FileNotFoundException;
+import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.OutputStream;
+import java.util.ArrayList;
 import java.util.Collection;
 import java.util.LinkedHashSet;
+import java.util.List;
 import java.util.Locale;
 import java.util.Objects;
 import java.util.Set;
@@ -22,12 +27,15 @@ import org.apache.commons.cli.Option;
 import org.apache.commons.cli.Options;
 import org.apache.commons.cli.ParseException;
 
+import com.dwarfeng.dutil.basic.cna.AttributeComplex;
 import com.dwarfeng.dutil.basic.cna.model.ReferenceModel;
 import com.dwarfeng.dutil.basic.cna.model.SyncListModel;
 import com.dwarfeng.dutil.basic.cna.model.SyncReferenceModel;
 import com.dwarfeng.dutil.basic.gui.swing.SwingUtil;
+import com.dwarfeng.dutil.basic.io.FileUtil;
 import com.dwarfeng.dutil.basic.io.LoadFailedException;
 import com.dwarfeng.dutil.basic.io.SaveFailedException;
+import com.dwarfeng.dutil.basic.mea.TimeMeasurer;
 import com.dwarfeng.dutil.basic.prog.RuntimeState;
 import com.dwarfeng.dutil.develop.backgr.Background;
 import com.dwarfeng.dutil.develop.backgr.Task;
@@ -50,6 +58,8 @@ import com.jneaglel.xlstool.bjmxfl.core.model.enumeration.CoreSettingItem;
 import com.jneaglel.xlstool.bjmxfl.core.model.enumeration.I18nKey;
 import com.jneaglel.xlstool.bjmxfl.core.model.enumeration.ModalSettingItem;
 import com.jneaglel.xlstool.bjmxfl.core.model.enumeration.ResourceKey;
+import com.jneaglel.xlstool.bjmxfl.core.model.ioprocessor.TextBjmxInfoLoader;
+import com.jneaglel.xlstool.bjmxfl.core.model.ioprocessor.XlsBjmxInfoSaver;
 import com.jneaglel.xlstool.bjmxfl.core.util.Constants;
 import com.jneaglel.xlstool.bjmxfl.core.view.MainFrame;
 
@@ -527,6 +537,182 @@ class BJMXFLActionManager implements ActionManager {
 		} finally {
 			modalSettingHandler.getLock().writeLock().unlock();
 		}
+	}
+
+	/**
+	 * {@inheritDoc}
+	 */
+	@Override
+	public void export(File dir) throws NullPointerException, IllegalArgumentException {
+		Objects.requireNonNull(dir, "入口参数 dir 不能为 null。");
+
+		if (!dir.isDirectory())
+			throw new IllegalArgumentException("入口参数 dir 必须是一个文件夹");
+
+		SyncListModel<File> files2ImportModel = bjmxfl.getFiles2ImportModel();
+		SyncSettingHandler coreSettingHandler = bjmxfl.getCoreSettingHandler();
+		SyncSettingHandler modalSettingHandler = bjmxfl.getModalSettingHandler();
+
+		modalSettingHandler.getLock().writeLock().lock();
+		try {
+			modalSettingHandler.setParsedValue(ModalSettingItem.FLAG_LAST_EXPORTED_FILE_EXISTS, true);
+			modalSettingHandler.setParsedValue(ModalSettingItem.FILE_LAST_EXPORTED_FILE, dir);
+		} finally {
+			modalSettingHandler.getLock().writeLock().unlock();
+		}
+
+		info(I18nKey.LOGGER_36);
+		TimeMeasurer tm = new TimeMeasurer();
+		tm.start();
+
+		final String src_dataSectionDelimiter;
+		final String src_fileEncode;
+		final int src_firstDataRow;
+		final int src_index_xmh;
+		final int src_index_bjh;
+		final int src_index_ljh;
+		final int src_index_ljmc;
+		final int src_index_cz;
+		final int src_index_dx;
+		final int src_index_dz;
+		final int src_index_zz;
+		final int src_index_ts;
+
+		final int exp_dataSheetIndex;
+		final int exp_firstDataRow;
+		final int exp_index_xmh;
+		final int exp_index_bjh;
+		final int exp_index_ljh;
+		final int exp_index_ljmc;
+		final int exp_index_cz;
+		final int exp_index_dx;
+		final int exp_index_dz;
+		final int exp_index_zz;
+		final int exp_index_ts;
+
+		coreSettingHandler.getLock().readLock().lock();
+		try {
+			src_dataSectionDelimiter = coreSettingHandler
+					.getParsedValidValue(CoreSettingItem.SRCTEXT_DATASECTION_DELIMITER, String.class);
+			src_fileEncode = coreSettingHandler.getParsedValidValue(CoreSettingItem.SRCTEXT_ENCODE, String.class);
+			src_firstDataRow = coreSettingHandler.getParsedValidValue(CoreSettingItem.SRCTEXT_INDEX_ROW_FIRST_DATA,
+					Integer.class);
+			src_index_xmh = coreSettingHandler.getParsedValidValue(CoreSettingItem.SRCTEXT_INDEX_COLUMN_XMH,
+					Integer.class);
+			src_index_bjh = coreSettingHandler.getParsedValidValue(CoreSettingItem.SRCTEXT_INDEX_COLUMN_BJH,
+					Integer.class);
+			src_index_ljh = coreSettingHandler.getParsedValidValue(CoreSettingItem.SRCTEXT_INDEX_COLUMN_LJH,
+					Integer.class);
+			src_index_ljmc = coreSettingHandler.getParsedValidValue(CoreSettingItem.SRCTEXT_INDEX_COLUMN_LJMC,
+					Integer.class);
+			src_index_cz = coreSettingHandler.getParsedValidValue(CoreSettingItem.SRCTEXT_INDEX_COLUMN_CZ,
+					Integer.class);
+			src_index_dx = coreSettingHandler.getParsedValidValue(CoreSettingItem.SRCTEXT_INDEX_COLUMN_DX,
+					Integer.class);
+			src_index_dz = coreSettingHandler.getParsedValidValue(CoreSettingItem.SRCTEXT_INDEX_COLUMN_DZ,
+					Integer.class);
+			src_index_zz = coreSettingHandler.getParsedValidValue(CoreSettingItem.SRCTEXT_INDEX_COLUMN_ZZ,
+					Integer.class);
+			src_index_ts = coreSettingHandler.getParsedValidValue(CoreSettingItem.SRCTEXT_INDEX_COLUMN_TS,
+					Integer.class);
+
+			exp_dataSheetIndex = coreSettingHandler.getParsedValidValue(CoreSettingItem.EXPTABLE_INDEX_TARGET_SHEET,
+					Integer.class);
+			exp_firstDataRow = coreSettingHandler.getParsedValidValue(CoreSettingItem.EXPTABLE_INDEX_ROW_FIRST_DATA,
+					Integer.class);
+			exp_index_xmh = coreSettingHandler.getParsedValidValue(CoreSettingItem.EXPTABLE_INDEX_COLUMN_XMH,
+					Integer.class);
+			exp_index_bjh = coreSettingHandler.getParsedValidValue(CoreSettingItem.EXPTABLE_INDEX_COLUMN_BJH,
+					Integer.class);
+			exp_index_ljh = coreSettingHandler.getParsedValidValue(CoreSettingItem.EXPTABLE_INDEX_COLUMN_LJH,
+					Integer.class);
+			exp_index_ljmc = coreSettingHandler.getParsedValidValue(CoreSettingItem.EXPTABLE_INDEX_COLUMN_LJMC,
+					Integer.class);
+			exp_index_cz = coreSettingHandler.getParsedValidValue(CoreSettingItem.EXPTABLE_INDEX_COLUMN_CZ,
+					Integer.class);
+			exp_index_dx = coreSettingHandler.getParsedValidValue(CoreSettingItem.EXPTABLE_INDEX_COLUMN_DX,
+					Integer.class);
+			exp_index_dz = coreSettingHandler.getParsedValidValue(CoreSettingItem.EXPTABLE_INDEX_COLUMN_DZ,
+					Integer.class);
+			exp_index_zz = coreSettingHandler.getParsedValidValue(CoreSettingItem.EXPTABLE_INDEX_COLUMN_ZZ,
+					Integer.class);
+			exp_index_ts = coreSettingHandler.getParsedValidValue(CoreSettingItem.EXPTABLE_INDEX_COLUMN_TS,
+					Integer.class);
+		} finally {
+			coreSettingHandler.getLock().readLock().unlock();
+		}
+
+		files2ImportModel.getLock().readLock().lock();
+		try {
+			for (File file : files2ImportModel) {
+				formatInfo(I18nKey.LOGGER_31, file.getName());
+
+				List<AttributeComplex> bjmxInfoList = new ArrayList<>();
+
+				// 将文件中的属性输入到 bjmxInfoList 中。
+				FileInputStream in;
+				try {
+					in = new FileInputStream(file);
+				} catch (FileNotFoundException e) {
+					formatWarn(I18nKey.LOGGER_28, e, file.getName());
+					continue;
+				}
+				Set<LoadFailedException> loadEptSet = new LinkedHashSet<>();
+				try (TextBjmxInfoLoader loader = new TextBjmxInfoLoader(in, src_dataSectionDelimiter, src_fileEncode,
+						src_firstDataRow, src_index_xmh, src_index_bjh, src_index_ljh, src_index_ljmc, src_index_cz,
+						src_index_dx, src_index_dz, src_index_zz, src_index_ts)) {
+					loadEptSet.addAll(loader.countinuousLoad(bjmxInfoList));
+				} catch (IOException e) {
+					formatWarn(I18nKey.LOGGER_29, e, file.getName());
+				}
+				for (LoadFailedException e : loadEptSet) {
+					warn(I18nKey.LOGGER_30, e);
+				}
+
+				// 将属性文件导出到 xls 电子表中。
+				InputStream templateInputstream;
+				try {
+					templateInputstream = openResourceInputStream(ResourceKey.EXPORT_TEMPLATE);
+				} catch (IOException e) {
+					error(I18nKey.LOGGER_32, e);
+					continue;
+				}
+				File targetFile = new File(dir, replaceFileExtension(file, Constants.FILE_EXTENSION_EXCEL_97_03));
+				try {
+					FileUtil.createFileIfNotExists(targetFile);
+				} catch (IOException e) {
+					formatWarn(I18nKey.LOGGER_33, e, targetFile.getName());
+					continue;
+				}
+				FileOutputStream out;
+				try {
+					out = new FileOutputStream(targetFile);
+				} catch (FileNotFoundException e) {
+					formatWarn(I18nKey.LOGGER_34, e, targetFile.getName());
+					continue;
+				}
+				Set<SaveFailedException> saveEptSet = new LinkedHashSet<>();
+				try (XlsBjmxInfoSaver saver = new XlsBjmxInfoSaver(out, templateInputstream, exp_dataSheetIndex,
+						exp_firstDataRow, exp_index_xmh, exp_index_bjh, exp_index_ljh, exp_index_ljmc, exp_index_cz,
+						exp_index_dx, exp_index_dz, exp_index_zz, exp_index_ts)) {
+					saveEptSet.addAll(saver.countinuousSave(bjmxInfoList));
+				} catch (IOException e) {
+					formatWarn(I18nKey.LOGGER_35, e, targetFile.getName());
+				}
+			}
+		} finally {
+			files2ImportModel.getLock().readLock().unlock();
+		}
+
+		tm.stop();
+		formatInfo(I18nKey.LOGGER_37, tm.getTimeMs());
+	}
+
+	private String replaceFileExtension(File file, String fileNameExtension) {
+		String fileName = file.getName();
+		int lastDotIndex = fileName.lastIndexOf('.');
+		String substring = fileName.substring(0, lastDotIndex < 0 ? fileName.length() : lastDotIndex);
+		return new StringBuilder().append(substring).append('.').append(fileNameExtension).toString();
 	}
 
 	// --------------------------------------------日志输出--------------------------------------------

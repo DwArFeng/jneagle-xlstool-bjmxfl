@@ -8,6 +8,7 @@ import com.dwarfeng.dutil.develop.setting.AbstractSettingInfo;
 import com.dwarfeng.dutil.develop.setting.SettingEnumItem;
 import com.dwarfeng.dutil.develop.setting.SettingInfo;
 import com.dwarfeng.dutil.develop.setting.info.LocaleSettingInfo;
+import com.dwarfeng.dutil.develop.setting.info.StringSettingInfo;
 
 public enum CoreSettingItem implements SettingEnumItem {
 
@@ -15,21 +16,54 @@ public enum CoreSettingItem implements SettingEnumItem {
 	I18N_LOCALE("i18n.locale", new LocaleSettingInfo("zh_CN")),
 
 	/** 源文件的第一行数据行，从0开始计数。 */
-	SRCTABLE_INDEX_ROW_FIRST_DATA("scrtable.index.row.first-data", new PositiveIntegerSettingInfo("3")),
+	SRCTEXT_INDEX_ROW_FIRST_DATA("srctext.index.row.first-data", new PositiveIntegerSettingInfo("1")),
+	/** 源文件的数据区域分隔符。 */
+	SRCTEXT_DATASECTION_DELIMITER("srctext.data-section.delimiter", new StringSettingInfo("\\t")),
+	/** 源文件的文本编码。 */
+	SRCTEXT_ENCODE("srctext.encode", new StringSettingInfo("GBK")),
+
+	/** 源文件的项目号所在的数据列，从0开始计数。 */
+	SRCTEXT_INDEX_COLUMN_XMH("srctext.data-section.column.xmh", new PositiveIntegerSettingInfo("0")),
+	/** 源文件部件号所在的数据列，从0开始计数。 */
+	SRCTEXT_INDEX_COLUMN_BJH("srctext.data-section.column.bjh", new PositiveIntegerSettingInfo("1")),
+	/** 源文件的零件号所在的数据列，从0开始计数。 */
+	SRCTEXT_INDEX_COLUMN_LJH("srctext.data-section.column.ljh", new PositiveIntegerSettingInfo("2")),
+	/** 源文件的零件名称所在的数据列，从0开始计数。 */
+	SRCTEXT_INDEX_COLUMN_LJMC("srctext.data-section.column.ljmc", new PositiveIntegerSettingInfo("3")),
+	/** 源文件的材质所在的数据列，从0开始计数。 */
+	SRCTEXT_INDEX_COLUMN_CZ("srctext.data-section.column.cz", new PositiveIntegerSettingInfo("4")),
+	/** 源文件的单需所在的数据列，从0开始计数。 */
+	SRCTEXT_INDEX_COLUMN_DX("srctext.data-section.column.dx", new PositiveIntegerSettingInfo("5")),
+	/** 源文件的单重所在的数据列，从0开始计数。 */
+	SRCTEXT_INDEX_COLUMN_DZ("srctext.data-section.column.dz", new PositiveIntegerSettingInfo("6")),
+	/** 源文件的总重所在的数据列，从0开始计数。 */
+	SRCTEXT_INDEX_COLUMN_ZZ("srctext.data-section.column.zz", new PositiveIntegerSettingInfo("7")),
+	/** 源文件的台数所在的数据列，从0开始计数。 */
+	SRCTEXT_INDEX_COLUMN_TS("srctext.data-section.column.ts", new PositiveIntegerSettingInfo("8")),
 
 	/** 数据导出的目标表单序号，从0开始计数。 */
 	EXPTABLE_INDEX_TARGET_SHEET("exptable.index.row.target-sheet", new PositiveIntegerSettingInfo("0")),
 	/** 导出文件的第一行数据行，从0开始计数。 */
-	EXPTABLE_INDEX_ROW_FIRST_DATA("exptable.index.row.first-data", new PositiveIntegerSettingInfo("3")),
-	
-	/** 源文件的职工部门所在的列，从0开始计数。 */
-	EXPTABLE_INDEX_COLUMN_DEPARTMENT("exptable.index.column.department", new PositiveIntegerSettingInfo("1")),
-	/** 源文件的员工工号所在的列，从0开始计数。 */
-	EXPTABLE_INDEX_COLUMN_WORK_NUMBER("exptable.index.column.work-number", new PositiveIntegerSettingInfo("2")),
-	/** 源文件的员工姓名所在的列，从0开始计数。 */
-	EXPTABLE_INDEX_COLUMN_STUFF_NAME("exptable.index.column.stuff-name", new PositiveIntegerSettingInfo("3")),
-	/** 源文件的缺勤统计所在的列，从0开始计数。 */
-	EXPTABLE_INDEX_COLUMN_ABSENCE_COUNT("exptable.index.column.absence-count", new PositiveIntegerSettingInfo("4")),
+	EXPTABLE_INDEX_ROW_FIRST_DATA("exptable.index.row.first-data", new PositiveIntegerSettingInfo("1")),
+
+	/** 源文件的项目号所在的数据列，从0开始计数。 */
+	EXPTABLE_INDEX_COLUMN_XMH("exptable.data-section.column.xmh", new PositiveIntegerSettingInfo("0")),
+	/** 源文件部件号所在的数据列，从0开始计数。 */
+	EXPTABLE_INDEX_COLUMN_BJH("exptable.data-section.column.bjh", new PositiveIntegerSettingInfo("1")),
+	/** 源文件的零件号所在的数据列，从0开始计数。 */
+	EXPTABLE_INDEX_COLUMN_LJH("exptable.data-section.column.ljh", new PositiveIntegerSettingInfo("2")),
+	/** 源文件的零件名称所在的数据列，从0开始计数。 */
+	EXPTABLE_INDEX_COLUMN_LJMC("exptable.data-section.column.ljmc", new PositiveIntegerSettingInfo("3")),
+	/** 源文件的材质所在的数据列，从0开始计数。 */
+	EXPTABLE_INDEX_COLUMN_CZ("exptable.data-section.column.cz", new PositiveIntegerSettingInfo("4")),
+	/** 源文件的单需所在的数据列，从0开始计数。 */
+	EXPTABLE_INDEX_COLUMN_DX("exptable.data-section.column.dx", new PositiveIntegerSettingInfo("5")),
+	/** 源文件的单重所在的数据列，从0开始计数。 */
+	EXPTABLE_INDEX_COLUMN_DZ("exptable.data-section.column.dz", new PositiveIntegerSettingInfo("6")),
+	/** 源文件的总重所在的数据列，从0开始计数。 */
+	EXPTABLE_INDEX_COLUMN_ZZ("exptable.data-section.column.zz", new PositiveIntegerSettingInfo("7")),
+	/** 源文件的台数所在的数据列，从0开始计数。 */
+	EXPTABLE_INDEX_COLUMN_TS("exptable.data-section.column.ts", new PositiveIntegerSettingInfo("8")),
 
 	;
 

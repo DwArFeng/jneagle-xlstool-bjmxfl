@@ -3,13 +3,11 @@ package com.jneaglel.xlstool.bjmxfl.core.control;
 import java.io.File;
 
 import com.dwarfeng.dutil.basic.cna.model.SyncListModel;
-import com.dwarfeng.dutil.basic.cna.model.SyncReferenceModel;
 import com.dwarfeng.dutil.develop.backgr.Background;
 import com.dwarfeng.dutil.develop.i18n.SyncI18nHandler;
 import com.dwarfeng.dutil.develop.logger.SyncLoggerHandler;
 import com.dwarfeng.dutil.develop.resource.SyncResourceHandler;
 import com.dwarfeng.dutil.develop.setting.SyncSettingHandler;
-import com.jneaglel.xlstool.bjmxfl.core.view.MainFrame;
 
 public interface ModelManager {
 

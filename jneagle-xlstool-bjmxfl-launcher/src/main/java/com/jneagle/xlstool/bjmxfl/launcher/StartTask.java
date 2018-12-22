@@ -24,8 +24,7 @@ class StartTask extends AbstractTask {
 	 */
 	@Override
 	protected void todo() throws Exception {
-		// TODO Auto-generated method stub
-
+		bjmxfl.getActionManager().start(args);
 	}
 
 }

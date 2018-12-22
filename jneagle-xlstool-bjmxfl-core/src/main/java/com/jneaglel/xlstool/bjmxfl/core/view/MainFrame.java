@@ -32,9 +32,12 @@ import com.jneaglel.xlstool.bjmxfl.core.control.ModelManager;
 import com.jneaglel.xlstool.bjmxfl.core.model.enumeration.I18nKey;
 import com.jneaglel.xlstool.bjmxfl.core.util.Constants;
 import com.jneaglel.xlstool.bjmxfl.core.view.task.ExitTask;
+import com.jneaglel.xlstool.bjmxfl.core.view.task.ExportFileTask;
 import com.jneaglel.xlstool.bjmxfl.core.view.task.SetFiles2ImportTask;
 
 public class MainFrame extends JFrame {
+
+	private static final long serialVersionUID = 6702289503309634106L;
 
 	private final JPanel contentPane;
 	private final JButton btnImport;
@@ -164,6 +167,13 @@ public class MainFrame extends JFrame {
 		scrollPane.setViewportView(list);
 
 		btnExport = new JButton("New button");
+		btnExport.addActionListener(new ActionListener() {
+			@Override
+			public void actionPerformed(ActionEvent e) {
+				MainFrame.this.actionManager.submit(
+						new ExportFileTask(MainFrame.this.modelManager, MainFrame.this.actionManager, MainFrame.this));
+			}
+		});
 		GridBagConstraints gbc_btnExport = new GridBagConstraints();
 		gbc_btnExport.insets = new Insets(0, 0, 5, 0);
 		gbc_btnExport.fill = GridBagConstraints.BOTH;

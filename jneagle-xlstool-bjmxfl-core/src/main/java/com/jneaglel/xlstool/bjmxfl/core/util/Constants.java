@@ -24,6 +24,25 @@ public final class Constants {
 	/** 代表Excel97-03的文件的扩展名。 */
 	public static final String FILE_EXTENSION_EXCEL_97_03 = "xls";
 
+	/** 属性集合中有关项目号的键。 */
+	public static final String ATTRIBUTE_COMPLEX_MARK_XMH = "xmh";
+	/** 属性集合中有关部件号的键。 */
+	public static final String ATTRIBUTE_COMPLEX_MARK_BJH = "bjh";
+	/** 属性集合中有关零件号的键。 */
+	public static final String ATTRIBUTE_COMPLEX_MARK_LJH = "ljh";
+	/** 属性集合中有关零件名称的键。 */
+	public static final String ATTRIBUTE_COMPLEX_MARK_LJMC = "ljmc";
+	/** 属性集合中有关材质的键。 */
+	public static final String ATTRIBUTE_COMPLEX_MARK_CZ = "cz";
+	/** 属性集合中有关单需的键。 */
+	public static final String ATTRIBUTE_COMPLEX_MARK_DX = "dx";
+	/** 属性集合中有关单重的键。 */
+	public static final String ATTRIBUTE_COMPLEX_MARK_DZ = "dz";
+	/** 属性集合中有关总重的键。 */
+	public static final String ATTRIBUTE_COMPLEX_MARK_ZZ = "zz";
+	/** 属性集合中有关台数的键。 */
+	public static final String ATTRIBUTE_COMPLEX_MARK_TS = "ts";
+
 	private Constants() {
 		// 禁止外部实例化。
 	}

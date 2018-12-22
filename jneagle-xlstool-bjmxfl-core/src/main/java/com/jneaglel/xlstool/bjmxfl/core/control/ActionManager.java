@@ -43,6 +43,13 @@ public interface ActionManager {
 	 */
 	public void setFiles2Import(Collection<File> files) throws NullPointerException;
 
+	/**
+	 * 
+	 * @param dir
+	 * @throws NullPointerException
+	 */
+	public void export(File dir) throws NullPointerException, IllegalArgumentException;
+
 	// --------------------------------------------日志输出--------------------------------------------
 	/**
 	 * 

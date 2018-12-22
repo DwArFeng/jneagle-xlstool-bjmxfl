@@ -38,6 +38,16 @@ public enum I18nKey implements Name {
 	LOGGER_25(new DefaultName("logger.25")), //
 	LOGGER_26(new DefaultName("logger.26")), //
 	LOGGER_27(new DefaultName("logger.27")), //
+	LOGGER_28(new DefaultName("logger.28")), //
+	LOGGER_29(new DefaultName("logger.29")), //
+	LOGGER_30(new DefaultName("logger.30")), //
+	LOGGER_31(new DefaultName("logger.31")), //
+	LOGGER_32(new DefaultName("logger.32")), //
+	LOGGER_33(new DefaultName("logger.33")), //
+	LOGGER_34(new DefaultName("logger.34")), //
+	LOGGER_35(new DefaultName("logger.35")), //
+	LOGGER_36(new DefaultName("logger.36")), //
+	LOGGER_37(new DefaultName("logger.37")), //
 
 	LABEL_1(new DefaultName("label.1")), //
 	LABEL_2(new DefaultName("label.2")), //
@@ -46,9 +56,6 @@ public enum I18nKey implements Name {
 	LABEL_5(new DefaultName("label.5")), //
 	LABEL_6(new DefaultName("label.6")), //
 	LABEL_7(new DefaultName("label.7")), //
-	LABEL_8(new DefaultName("label.8")), //
-	LABEL_9(new DefaultName("label.9")), //
-	LABEL_10(new DefaultName("label.10")), //
 
 	;
 
