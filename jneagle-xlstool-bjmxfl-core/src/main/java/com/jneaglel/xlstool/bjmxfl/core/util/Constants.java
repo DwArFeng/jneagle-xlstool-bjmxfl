@@ -25,23 +25,36 @@ public final class Constants {
 	public static final String FILE_EXTENSION_EXCEL_97_03 = "xls";
 
 	/** 属性集合中有关项目号的键。 */
-	public static final String ATTRIBUTE_COMPLEX_MARK_XMH = "xmh";
+	public static final String ATTRIBUTE_COMPLEX_MARK_DATA_XMH = "data.xmh";
 	/** 属性集合中有关部件号的键。 */
-	public static final String ATTRIBUTE_COMPLEX_MARK_BJH = "bjh";
+	public static final String ATTRIBUTE_COMPLEX_MARK_DATA_BJH = "data.bjh";
 	/** 属性集合中有关零件号的键。 */
-	public static final String ATTRIBUTE_COMPLEX_MARK_LJH = "ljh";
+	public static final String ATTRIBUTE_COMPLEX_MARK_DATA_LJH = "data.ljh";
 	/** 属性集合中有关零件名称的键。 */
-	public static final String ATTRIBUTE_COMPLEX_MARK_LJMC = "ljmc";
+	public static final String ATTRIBUTE_COMPLEX_MARK_DATA_LJMC = "data.ljmc";
 	/** 属性集合中有关材质的键。 */
-	public static final String ATTRIBUTE_COMPLEX_MARK_CZ = "cz";
+	public static final String ATTRIBUTE_COMPLEX_MARK_DATA_CZ = "data.cz";
 	/** 属性集合中有关单需的键。 */
-	public static final String ATTRIBUTE_COMPLEX_MARK_DX = "dx";
+	public static final String ATTRIBUTE_COMPLEX_MARK_DATA_DX = "data.dx";
 	/** 属性集合中有关单重的键。 */
-	public static final String ATTRIBUTE_COMPLEX_MARK_DZ = "dz";
+	public static final String ATTRIBUTE_COMPLEX_MARK_DATA_DZ = "data.dz";
 	/** 属性集合中有关总重的键。 */
-	public static final String ATTRIBUTE_COMPLEX_MARK_ZZ = "zz";
+	public static final String ATTRIBUTE_COMPLEX_MARK_DATA_ZZ = "data.zz";
 	/** 属性集合中有关台数的键。 */
-	public static final String ATTRIBUTE_COMPLEX_MARK_TS = "ts";
+	public static final String ATTRIBUTE_COMPLEX_MARK_DATA_TS = "data.ts";
+	/** 属性集合中有关单需的类型的键。 */
+	public static final String ATTRIBUTE_COMPLEX_MARK_TYPE_DX = "type.dx";
+	/** 属性集合中有关单重的类型的键。 */
+	public static final String ATTRIBUTE_COMPLEX_MARK_TYPE_DZ = "type.dz";
+	/** 属性集合中有关总重的类型的键。 */
+	public static final String ATTRIBUTE_COMPLEX_MARK_TYPE_ZZ = "type.zz";
+	/** 属性集合中有关台数的类型的键。 */
+	public static final String ATTRIBUTE_COMPLEX_MARK_TYPE_TS = "type.ts";
+
+	/** 属性集合中有关类型的键 */
+	public static final String ATTRIBUTE_COMPLEX_MARK_TYPE = "type";
+	/** 属性集合中有关数据的键 */
+	public static final String ATTRIBUTE_COMPLEX_MARK_DATA = "data";
 
 	private Constants() {
 		// 禁止外部实例化。

@@ -17,6 +17,7 @@ import org.apache.poi.ss.usermodel.Workbook;
 import com.dwarfeng.dutil.basic.cna.AttributeComplex;
 import com.dwarfeng.dutil.basic.io.SaveFailedException;
 import com.dwarfeng.dutil.basic.io.StreamSaver;
+import com.jneaglel.xlstool.bjmxfl.core.model.enumeration.DataType;
 import com.jneaglel.xlstool.bjmxfl.core.util.Constants;
 
 public class XlsBjmxInfoSaver extends StreamSaver<Collection<AttributeComplex>> {
@@ -142,25 +143,45 @@ public class XlsBjmxInfoSaver extends StreamSaver<Collection<AttributeComplex>> 
 		Cell cell_zz = row.getCell(index_zz);
 		Cell cell_ts = row.getCell(index_ts);
 
-		String string_xmh = attributeComplex.get(Constants.ATTRIBUTE_COMPLEX_MARK_XMH, String.class);
-		String string_bjh = attributeComplex.get(Constants.ATTRIBUTE_COMPLEX_MARK_BJH, String.class);
-		String string_ljh = attributeComplex.get(Constants.ATTRIBUTE_COMPLEX_MARK_LJH, String.class);
-		String string_ljmc = attributeComplex.get(Constants.ATTRIBUTE_COMPLEX_MARK_LJMC, String.class);
-		String string_cz = attributeComplex.get(Constants.ATTRIBUTE_COMPLEX_MARK_CZ, String.class);
-		double double_dx = attributeComplex.get(Constants.ATTRIBUTE_COMPLEX_MARK_DX, Double.class);
-		double double_dz = attributeComplex.get(Constants.ATTRIBUTE_COMPLEX_MARK_DZ, Double.class);
-		double double_zz = attributeComplex.get(Constants.ATTRIBUTE_COMPLEX_MARK_ZZ, Double.class);
-		double double_ts = attributeComplex.get(Constants.ATTRIBUTE_COMPLEX_MARK_TS, Double.class);
+		String string_xmh = attributeComplex.get(Constants.ATTRIBUTE_COMPLEX_MARK_DATA_XMH, String.class);
+		String string_bjh = attributeComplex.get(Constants.ATTRIBUTE_COMPLEX_MARK_DATA_BJH, String.class);
+		String string_ljh = attributeComplex.get(Constants.ATTRIBUTE_COMPLEX_MARK_DATA_LJH, String.class);
+		String string_ljmc = attributeComplex.get(Constants.ATTRIBUTE_COMPLEX_MARK_DATA_LJMC, String.class);
+		String string_cz = attributeComplex.get(Constants.ATTRIBUTE_COMPLEX_MARK_DATA_CZ, String.class);
+
+		DataType type_dx = attributeComplex.get(Constants.ATTRIBUTE_COMPLEX_MARK_TYPE_DX, DataType.class);
+		DataType type_dz = attributeComplex.get(Constants.ATTRIBUTE_COMPLEX_MARK_TYPE_DZ, DataType.class);
+		DataType type_zz = attributeComplex.get(Constants.ATTRIBUTE_COMPLEX_MARK_TYPE_ZZ, DataType.class);
+		DataType type_ts = attributeComplex.get(Constants.ATTRIBUTE_COMPLEX_MARK_TYPE_TS, DataType.class);
+
+		Object data_dx = attributeComplex.get(Constants.ATTRIBUTE_COMPLEX_MARK_DATA_DX);
+		Object data_dz = attributeComplex.get(Constants.ATTRIBUTE_COMPLEX_MARK_DATA_DZ);
+		Object data_zz = attributeComplex.get(Constants.ATTRIBUTE_COMPLEX_MARK_DATA_ZZ);
+		Object data_ts = attributeComplex.get(Constants.ATTRIBUTE_COMPLEX_MARK_DATA_TS);
 
 		cell_xmh.setCellValue(string_xmh);
 		cell_bjh.setCellValue(string_bjh);
 		cell_ljh.setCellValue(string_ljh);
 		cell_ljmc.setCellValue(string_ljmc);
 		cell_cz.setCellValue(string_cz);
-		cell_dx.setCellValue(double_dx);
-		cell_dz.setCellValue(double_dz);
-		cell_zz.setCellValue(double_zz);
-		cell_ts.setCellValue(double_ts);
+		setMultiTypeCell(cell_dx, type_dx, data_dx);
+		setMultiTypeCell(cell_dz, type_dz, data_dz);
+		setMultiTypeCell(cell_zz, type_zz, data_zz);
+		setMultiTypeCell(cell_ts, type_ts, data_ts);
+	}
+
+	private void setMultiTypeCell(Cell cell, DataType type, Object data) {
+		switch (type) {
+		case NUMERIC:
+			cell.setCellValue((Double) data);
+			break;
+		case STRING:
+			cell.setCellValue((String) data);
+			break;
+		default:
+			cell.setCellValue((String) data);
+			break;
+		}
 	}
 
 }

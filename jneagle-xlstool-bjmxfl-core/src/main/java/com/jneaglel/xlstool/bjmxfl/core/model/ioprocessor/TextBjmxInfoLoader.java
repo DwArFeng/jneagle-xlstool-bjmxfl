@@ -18,14 +18,11 @@ import com.dwarfeng.dutil.basic.io.IOUtil;
 import com.dwarfeng.dutil.basic.io.LoadFailedException;
 import com.dwarfeng.dutil.basic.io.StreamLoader;
 import com.dwarfeng.dutil.basic.io.StringOutputStream;
+import com.dwarfeng.dutil.basic.str.StringUtil;
+import com.jneaglel.xlstool.bjmxfl.core.model.enumeration.DataType;
 import com.jneaglel.xlstool.bjmxfl.core.util.Constants;
 
 public class TextBjmxInfoLoader extends StreamLoader<Collection<AttributeComplex>> {
-
-	protected static final Supplier<? extends IllegalArgumentException> EXCEPTION_SUPPILER_LOSSING_PROPERTY = () -> new IllegalArgumentException(
-			"属性缺失");
-	protected static final Supplier<? extends IllegalArgumentException> EXCEPTION_SUPPLIER_INVALID_STRING_FORMAT = () -> new IllegalArgumentException(
-			"文本格式非法");
 
 	private final String dataSectionDelimiter;
 	private final String fileEncode;
@@ -154,39 +151,70 @@ public class TextBjmxInfoLoader extends StreamLoader<Collection<AttributeComplex
 		String[] dataSectionArray = dataText.split(dataSectionDelimiter);
 
 		String xmhString = Optional.ofNullable(getSection(dataSectionArray, index_xmh))
-				.orElseThrow(EXCEPTION_SUPPILER_LOSSING_PROPERTY);
+				.orElseThrow(new LossingPropertyExceptionSuppiler());
 		String bjhString = Optional.ofNullable(getSection(dataSectionArray, index_bjh))
-				.orElseThrow(EXCEPTION_SUPPILER_LOSSING_PROPERTY);
+				.orElseThrow(new LossingPropertyExceptionSuppiler());
 		String ljhString = Optional.ofNullable(getSection(dataSectionArray, index_ljh))
-				.orElseThrow(EXCEPTION_SUPPILER_LOSSING_PROPERTY);
+				.orElseThrow(new LossingPropertyExceptionSuppiler());
 		String ljmcString = Optional.ofNullable(getSection(dataSectionArray, index_ljmc))
-				.orElseThrow(EXCEPTION_SUPPILER_LOSSING_PROPERTY);
+				.orElseThrow(new LossingPropertyExceptionSuppiler());
 		String czString = Optional.ofNullable(getSection(dataSectionArray, index_cz))
-				.orElseThrow(EXCEPTION_SUPPILER_LOSSING_PROPERTY);
+				.orElseThrow(new LossingPropertyExceptionSuppiler());
 		String dxString = Optional.ofNullable(getSection(dataSectionArray, index_dx))
-				.orElseThrow(EXCEPTION_SUPPILER_LOSSING_PROPERTY);
+				.orElseThrow(new LossingPropertyExceptionSuppiler());
 		String dzString = Optional.ofNullable(getSection(dataSectionArray, index_dz))
-				.orElseThrow(EXCEPTION_SUPPILER_LOSSING_PROPERTY);
+				.orElseThrow(new LossingPropertyExceptionSuppiler());
 		String zzString = Optional.ofNullable(getSection(dataSectionArray, index_zz))
-				.orElseThrow(EXCEPTION_SUPPILER_LOSSING_PROPERTY);
+				.orElseThrow(new LossingPropertyExceptionSuppiler());
 		String tsString = Optional.ofNullable(getSection(dataSectionArray, index_ts))
-				.orElseThrow(EXCEPTION_SUPPILER_LOSSING_PROPERTY);
+				.orElseThrow(new LossingPropertyExceptionSuppiler());
 
-		Double dx = Optional.ofNullable(string2Double(dxString)).orElseThrow(EXCEPTION_SUPPLIER_INVALID_STRING_FORMAT);
-		Double dz = Optional.ofNullable(string2Double(dzString)).orElseThrow(EXCEPTION_SUPPLIER_INVALID_STRING_FORMAT);
-		Double zz = Optional.ofNullable(string2Double(zzString)).orElseThrow(EXCEPTION_SUPPLIER_INVALID_STRING_FORMAT);
-		Double ts = Optional.ofNullable(string2Double(tsString)).orElseThrow(EXCEPTION_SUPPLIER_INVALID_STRING_FORMAT);
+		Object type_dx;
+		Object data_dx;
+		{
+			AttributeComplex ac = string2AttributeComplex(dxString);
+			type_dx = ac.get(Constants.ATTRIBUTE_COMPLEX_MARK_TYPE);
+			data_dx = ac.get(Constants.ATTRIBUTE_COMPLEX_MARK_DATA);
+		}
+
+		Object type_dz;
+		Object data_dz;
+		{
+			AttributeComplex ac = string2AttributeComplex(dzString);
+			type_dz = ac.get(Constants.ATTRIBUTE_COMPLEX_MARK_TYPE);
+			data_dz = ac.get(Constants.ATTRIBUTE_COMPLEX_MARK_DATA);
+		}
+
+		Object type_zz;
+		Object data_zz;
+		{
+			AttributeComplex ac = string2AttributeComplex(zzString);
+			type_zz = ac.get(Constants.ATTRIBUTE_COMPLEX_MARK_TYPE);
+			data_zz = ac.get(Constants.ATTRIBUTE_COMPLEX_MARK_DATA);
+		}
+
+		Object type_ts;
+		Object data_ts;
+		{
+			AttributeComplex ac = string2AttributeComplex(tsString);
+			type_ts = ac.get(Constants.ATTRIBUTE_COMPLEX_MARK_TYPE);
+			data_ts = ac.get(Constants.ATTRIBUTE_COMPLEX_MARK_DATA);
+		}
 
 		AttributeComplex ac = AttributeComplex.newInstance(new Object[] { //
-				Constants.ATTRIBUTE_COMPLEX_MARK_XMH, xmhString, //
-				Constants.ATTRIBUTE_COMPLEX_MARK_BJH, bjhString, //
-				Constants.ATTRIBUTE_COMPLEX_MARK_LJH, ljhString, //
-				Constants.ATTRIBUTE_COMPLEX_MARK_LJMC, ljmcString, //
-				Constants.ATTRIBUTE_COMPLEX_MARK_CZ, czString, //
-				Constants.ATTRIBUTE_COMPLEX_MARK_DX, dx, //
-				Constants.ATTRIBUTE_COMPLEX_MARK_DZ, dz, //
-				Constants.ATTRIBUTE_COMPLEX_MARK_ZZ, zz, //
-				Constants.ATTRIBUTE_COMPLEX_MARK_TS, ts,//
+				Constants.ATTRIBUTE_COMPLEX_MARK_DATA_XMH, xmhString, //
+				Constants.ATTRIBUTE_COMPLEX_MARK_DATA_BJH, bjhString, //
+				Constants.ATTRIBUTE_COMPLEX_MARK_DATA_LJH, ljhString, //
+				Constants.ATTRIBUTE_COMPLEX_MARK_DATA_LJMC, ljmcString, //
+				Constants.ATTRIBUTE_COMPLEX_MARK_DATA_CZ, czString, //
+				Constants.ATTRIBUTE_COMPLEX_MARK_DATA_DX, data_dx, //
+				Constants.ATTRIBUTE_COMPLEX_MARK_DATA_DZ, data_dz, //
+				Constants.ATTRIBUTE_COMPLEX_MARK_DATA_ZZ, data_zz, //
+				Constants.ATTRIBUTE_COMPLEX_MARK_DATA_TS, data_ts, //
+				Constants.ATTRIBUTE_COMPLEX_MARK_TYPE_DX, type_dx, //
+				Constants.ATTRIBUTE_COMPLEX_MARK_TYPE_DZ, type_dz, //
+				Constants.ATTRIBUTE_COMPLEX_MARK_TYPE_ZZ, type_zz, //
+				Constants.ATTRIBUTE_COMPLEX_MARK_TYPE_TS, type_ts,//
 		});
 
 		collection.add(ac);
@@ -196,12 +224,33 @@ public class TextBjmxInfoLoader extends StreamLoader<Collection<AttributeComplex
 		return dataSectionArray.length <= index ? null : dataSectionArray[index];
 	}
 
-	private Double string2Double(String string) {
-		try {
-			return Double.parseDouble(string);
-		} catch (Exception e) {
-			return null;
+	private AttributeComplex string2AttributeComplex(String string) {
+		if (StringUtil.isNumeric(string)) {
+			return AttributeComplex.newInstance(new Object[] { //
+					Constants.ATTRIBUTE_COMPLEX_MARK_TYPE, DataType.NUMERIC, //
+					Constants.ATTRIBUTE_COMPLEX_MARK_DATA, Double.parseDouble(string),//
+			});
+		} else {
+			return AttributeComplex.newInstance(new Object[] { //
+					Constants.ATTRIBUTE_COMPLEX_MARK_TYPE, DataType.STRING, //
+					Constants.ATTRIBUTE_COMPLEX_MARK_DATA, string,//
+			});
 		}
+	}
+
+	private class LossingPropertyExceptionSuppiler implements Supplier<IllegalArgumentException> {
+
+		public LossingPropertyExceptionSuppiler() {
+		}
+
+		/**
+		 * {@inheritDoc}
+		 */
+		@Override
+		public IllegalArgumentException get() {
+			return new IllegalArgumentException("属性缺失");
+		}
+
 	}
 
 }

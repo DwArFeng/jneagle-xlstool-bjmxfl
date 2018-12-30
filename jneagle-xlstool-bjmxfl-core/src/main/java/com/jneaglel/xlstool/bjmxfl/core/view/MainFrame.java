@@ -43,6 +43,7 @@ public class MainFrame extends JFrame {
 	private final JButton btnImport;
 	private final JButton btnExport;
 	private final JLabel lblBanner;
+	private final JLabel lblVersionIndicator;
 
 	private ModelManager modelManager;
 	private ActionManager actionManager;
@@ -92,7 +93,6 @@ public class MainFrame extends JFrame {
 		}
 
 	};
-	private JLabel lblNewLabel;
 
 	public MainFrame() {
 		this(null, null);
@@ -126,6 +126,7 @@ public class MainFrame extends JFrame {
 
 		btnImport = new JButton("New button");
 		btnImport.addActionListener(new ActionListener() {
+
 			@Override
 			public void actionPerformed(ActionEvent e) {
 				checkManagerAndDo(() -> {
@@ -168,6 +169,7 @@ public class MainFrame extends JFrame {
 
 		btnExport = new JButton("New button");
 		btnExport.addActionListener(new ActionListener() {
+
 			@Override
 			public void actionPerformed(ActionEvent e) {
 				MainFrame.this.actionManager.submit(
@@ -181,13 +183,13 @@ public class MainFrame extends JFrame {
 		gbc_btnExport.gridy = 3;
 		contentPane.add(btnExport, gbc_btnExport);
 
-		lblNewLabel = new JLabel(BJMXFL.VERSION.getLongName());
-		GridBagConstraints gbc_lblNewLabel = new GridBagConstraints();
-		gbc_lblNewLabel.fill = GridBagConstraints.VERTICAL;
-		gbc_lblNewLabel.anchor = GridBagConstraints.EAST;
-		gbc_lblNewLabel.gridx = 0;
-		gbc_lblNewLabel.gridy = 4;
-		contentPane.add(lblNewLabel, gbc_lblNewLabel);
+		lblVersionIndicator = new JLabel(BJMXFL.VERSION.getLongName());
+		GridBagConstraints gbc_lblVersionIndicator = new GridBagConstraints();
+		gbc_lblVersionIndicator.fill = GridBagConstraints.VERTICAL;
+		gbc_lblVersionIndicator.anchor = GridBagConstraints.EAST;
+		gbc_lblVersionIndicator.gridx = 0;
+		gbc_lblVersionIndicator.gridy = 4;
+		contentPane.add(lblVersionIndicator, gbc_lblVersionIndicator);
 
 		this.modelManager = modelManager;
 		this.actionManager = actionManager;
@@ -209,7 +211,8 @@ public class MainFrame extends JFrame {
 	}
 
 	/**
-	 * @param modelManager the modelManager to set
+	 * @param modelManager
+	 *            the modelManager to set
 	 */
 	public void setModelManager(ModelManager modelManager) {
 		this.modelManager = modelManager;
@@ -223,7 +226,8 @@ public class MainFrame extends JFrame {
 	}
 
 	/**
-	 * @param actionManager the actionManager to set
+	 * @param actionManager
+	 *            the actionManager to set
 	 */
 	public void setActionManager(ActionManager actionManager) {
 		Optional.ofNullable(this.modelManager).ifPresent(manager -> {
