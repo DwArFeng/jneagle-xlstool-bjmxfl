@@ -7,6 +7,7 @@ import java.util.concurrent.locks.ReentrantLock;
 import com.dwarfeng.dutil.develop.setting.AbstractSettingInfo;
 import com.dwarfeng.dutil.develop.setting.SettingEnumItem;
 import com.dwarfeng.dutil.develop.setting.SettingInfo;
+import com.dwarfeng.dutil.develop.setting.info.BooleanSettingInfo;
 import com.dwarfeng.dutil.develop.setting.info.LocaleSettingInfo;
 import com.dwarfeng.dutil.develop.setting.info.StringSettingInfo;
 
@@ -14,6 +15,10 @@ public enum CoreSettingItem implements SettingEnumItem {
 
 	/** 国际化地区。 */
 	I18N_LOCALE("i18n.locale", new LocaleSettingInfo("zh_CN")),
+
+	/** 是否删除成功导出的原始文件。 */
+	POLICY_DELETE_SUCCESSFUL_EXPORTED_SRC_FILE("policy.delete-successful-exported-src-file",
+			new BooleanSettingInfo("true")),
 
 	/** 源文件的第一行数据行，从0开始计数。 */
 	SRCTEXT_INDEX_ROW_FIRST_DATA("srctext.index.row.first-data", new PositiveIntegerSettingInfo("1")),

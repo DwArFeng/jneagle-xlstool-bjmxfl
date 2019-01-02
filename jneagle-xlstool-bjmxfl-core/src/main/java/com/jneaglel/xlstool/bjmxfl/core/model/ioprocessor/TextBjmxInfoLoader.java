@@ -126,11 +126,16 @@ public class TextBjmxInfoLoader extends StreamLoader<Collection<AttributeComplex
 	private List<String> loadDataText() throws Exception {
 		String dataText;
 
-		try (StringOutputStream sout = new StringOutputStream(Charset.forName(fileEncode))) {
-			IOUtil.trans(in, sout, 1024);
+		StringOutputStream sout = null;
+		try {
+			sout = new StringOutputStream(Charset.forName(fileEncode));
+			IOUtil.trans(in, sout, 8192);
 			sout.flush();
-			dataText = sout.toString();
+		} finally {
+			if (Objects.nonNull(sout))
+				sout.close();
 		}
+		dataText = sout.toString();
 
 		dataText = dataText.replaceAll("\\r", "");
 		String[] dataTextArray = dataText.split("\\n");

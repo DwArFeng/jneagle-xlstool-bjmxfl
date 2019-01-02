@@ -565,6 +565,7 @@ class BJMXFLActionManager implements ActionManager {
 		TimeMeasurer tm = new TimeMeasurer();
 		tm.start();
 
+		final boolean policy_deleteSuccessfulExportedSrcFile;
 		final String src_dataSectionDelimiter;
 		final String src_fileEncode;
 		final int src_firstDataRow;
@@ -592,6 +593,8 @@ class BJMXFLActionManager implements ActionManager {
 
 		coreSettingHandler.getLock().readLock().lock();
 		try {
+			policy_deleteSuccessfulExportedSrcFile = coreSettingHandler
+					.getParsedValidValue(CoreSettingItem.POLICY_DELETE_SUCCESSFUL_EXPORTED_SRC_FILE, Boolean.class);
 			src_dataSectionDelimiter = coreSettingHandler
 					.getParsedValidValue(CoreSettingItem.SRCTEXT_DATASECTION_DELIMITER, String.class);
 			src_fileEncode = coreSettingHandler.getParsedValidValue(CoreSettingItem.SRCTEXT_ENCODE, String.class);
@@ -698,6 +701,15 @@ class BJMXFLActionManager implements ActionManager {
 					saveEptSet.addAll(saver.countinuousSave(bjmxInfoList));
 				} catch (IOException e) {
 					formatWarn(I18nKey.LOGGER_35, e, targetFile.getName());
+				}
+				for (SaveFailedException e : saveEptSet) {
+					warn(I18nKey.LOGGER_39, e);
+				}
+
+				// 如果导入和导出都没有错误，并且策略中设定删除导出成功的源文件，则删除源文件。
+				if (policy_deleteSuccessfulExportedSrcFile && loadEptSet.isEmpty() && saveEptSet.isEmpty()) {
+					formatInfo(I18nKey.LOGGER_38, file.getName());
+					FileUtil.deleteFile(file);
 				}
 			}
 		} finally {
