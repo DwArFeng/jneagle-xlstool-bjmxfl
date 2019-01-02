@@ -6,7 +6,7 @@
 
 	<groupId>com.jneagle</groupId>
 	<artifactId>jneagle-xlstool-bjmxfl</artifactId>
-	<version>1.0.0.a</version>
+	<version>1.1.0.a</version>
 	<packaging>pom</packaging>
 
 	<name>jneagle-xlstool-bjmxfl</name>
@@ -35,7 +35,7 @@
 			<dependency>
 				<groupId>com.jneagle</groupId>
 				<artifactId>jneagle-xlstool-bjmxfl-core</artifactId>
-				<version>1.0.0.a</version>
+				<version>1.1.0.a</version>
 			</dependency>
 			<dependency>
 				<groupId>com.dwarfeng</groupId>
