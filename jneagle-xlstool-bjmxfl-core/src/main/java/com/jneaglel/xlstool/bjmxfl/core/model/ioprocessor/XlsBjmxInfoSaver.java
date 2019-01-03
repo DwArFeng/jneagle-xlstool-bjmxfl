@@ -108,6 +108,7 @@ public class XlsBjmxInfoSaver extends StreamSaver<Collection<AttributeComplex>> 
 				}
 			}
 
+			workbook.setForceFormulaRecalculation(true);
 			workbook.write(out);
 
 		} catch (Exception e) {

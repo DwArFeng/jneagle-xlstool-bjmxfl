@@ -45,7 +45,7 @@ public class BJMXFL {
 
 	/** 程序的版本。 */
 	public static final Version VERSION = new DefaultVersion.Builder().setType(VersionType.RELEASE)
-			.setFirstVersion((byte) 1).setSecondVersion((byte) 1).setThirdVersion((byte) 0).setBuildDate("20190102")
+			.setFirstVersion((byte) 1).setSecondVersion((byte) 1).setThirdVersion((byte) 1).setBuildDate("20190103")
 			.setBuildVersion('A').build();
 	/** 程序的实例列表，用于持有引用 */
 	private static final Set<BJMXFL> INSTANCES = Collections.synchronizedSet(new HashSet<>());
